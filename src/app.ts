@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import mongoose from 'mongoose'
+import { PrismaClient } from '@prisma/client'
 
 class App {
     public express: express.Application
@@ -17,8 +17,9 @@ class App {
         this.express.use(cors())
     }
 
-    private database(): void {
-        mongoose.connect('mongodb+srv://lela:lela123@cluster0.xbmim.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+    private async database(): Promise<void> {
+        const prisma = new PrismaClient()
+        await prisma.$connect()
     }
 
     private routes(): void {
